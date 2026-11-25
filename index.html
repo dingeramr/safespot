@@ -7,271 +7,334 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a dark teal band holds the promise and one booking card that walks through three steps (find, choose, pay); a live locker wall sits beside it. White sections follow. Single light look by choice, to match the printed brand. */
+/* An app, not a page: one screen at a time fills the window and nothing scrolls. Tabs move between screens; booking is a short run of screens. On wide windows a live locker bank stays on the right. Single light look by choice, to match the printed brand. */
 :root{
   --ink:#0E3B43; --ink2:#1A4E57; --clay:#E9952B; --clay-d:#B86E12; --sand:#E3C485; --sage:#E9F2F1; --blush:#FFF4DC;
   --paper:#FFFFFF; --text:#16343A; --muted:#55707A; --rule:#D9E4E3; --ok:#1E6B45; --okbg:#DDF0E4; --busy:#345A61; --warn:#8A2B1D; --warnbg:#FBE1DC;
   --display:'Lora',Georgia,'Times New Roman',serif; --body:'Poppins',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
-  --r:14px;
+  --r:14px; --gut:max(16px,env(safe-area-inset-left,0px)); --gutr:max(16px,env(safe-area-inset-right,0px));
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.55}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;margin:0;text-wrap:balance}
-h2{font-size:clamp(1.6rem,3.2vw,2.2rem);color:var(--ink)}
-h3{font-size:1.15rem;color:var(--ink)}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.45;overflow:hidden}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;color:var(--ink)}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem)}
+h3{font-family:var(--body);font-size:.95rem;font-weight:600}
 p{margin:0}
-a{color:inherit}
 button{font-family:inherit;font-size:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--clay);outline-offset:2px}
-.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--clay-d)}
-.lead{color:var(--muted);max-width:62ch;margin-top:.6rem}
-.demo{background:var(--blush);color:var(--ink);font-size:.8rem;text-align:center;padding-block:.45rem}
-/* hero */
-.hero{background:var(--ink);color:#fff;margin-top:calc(-1*env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
-.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.1rem}
-.logo{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:1.35rem;letter-spacing:-.01em;text-decoration:none}
-.logo i{display:inline-grid;place-items:center;width:30px;height:34px;border:2.5px solid #fff;border-radius:8px}
-.logo i::after{content:"";width:7px;height:12px;border-radius:4px 4px 2px 2px;background:var(--clay)}
-nav{display:flex;gap:1.3rem;flex-wrap:wrap;font-size:.88rem}
-nav a{text-decoration:none;opacity:.85} nav a:hover{opacity:1;text-decoration:underline}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;grid-template-areas:"head ticket" "wall ticket";gap:0 2.5rem;align-items:start;padding-block:1.6rem 3.2rem}
-.hhead{grid-area:head} .wall{grid-area:wall} .ticket{grid-area:ticket}
-.hero h1{font-size:clamp(2.1rem,5vw,3.5rem);letter-spacing:-.01em}
-.hero h1 em{font-style:normal;color:var(--sand)}
-.hero .sub{margin-top:1rem;max-width:46ch;opacity:.88;font-size:1.02rem}
-.facts{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.4rem;font-size:.86rem}
-.facts b{color:var(--sand);font-weight:600}
-/* locker wall */
-.wall{margin-top:1.8rem;background:var(--ink2);border-radius:18px;padding:14px;border:1px solid rgba(255,255,255,.12)}
-.wall-head{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;opacity:.85;margin-bottom:10px;gap:.6rem;flex-wrap:wrap}
-.legend{display:flex;gap:.9rem}
-.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;vertical-align:-1px;background:var(--sand)}
+.eyebrow{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--clay-d)}
+.lead{color:var(--muted);font-size:.88rem;margin-top:.35rem;max-width:60ch}
+/* shell */
+.app{height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar" "stage" "tabs"}
+.bar{grid-area:bar;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.6rem var(--gutr) .6rem var(--gut);padding-top:calc(.6rem + env(safe-area-inset-top,0px));margin-top:calc(-1*env(safe-area-inset-top,0px))}
+.logo{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.2rem;letter-spacing:-.01em;color:#fff;background:none;border:0;padding:0}
+.logo i{display:inline-grid;place-items:center;width:26px;height:30px;border:2.5px solid #fff;border-radius:7px}
+.logo i::after{content:"";width:6px;height:11px;border-radius:4px 4px 2px 2px;background:var(--clay)}
+.proto{font-size:.66rem;background:rgba(255,255,255,.12);border-radius:99px;padding:.22rem .6rem;white-space:nowrap}
+.tabs{grid-area:tabs;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid var(--rule);padding:0 var(--gutr) env(safe-area-inset-bottom,0px) var(--gut)}
+.tabs button{border:0;background:none;color:var(--muted);display:grid;justify-items:center;gap:1px;padding:.5rem 0 .45rem;font-size:.66rem;font-weight:500;position:relative}
+.tabs svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs button.on{color:var(--ink);font-weight:600}
+.tabs button.on::before{content:"";position:absolute;top:0;width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--clay)}
+.tabs button.cta svg{stroke:var(--clay-d)}
+.stage{grid-area:stage;display:grid;grid-template-columns:minmax(0,1fr);min-height:0}
+.screens{position:relative;min-height:0;min-width:0;overflow:hidden}
+.screen{position:absolute;inset:0;padding:1rem var(--gutr) .9rem var(--gut);display:flex;flex-direction:column;gap:.7rem;overflow-y:auto;scrollbar-width:none;opacity:0;visibility:hidden;transform:translateX(26px);transition:opacity .26s ease,transform .26s ease,visibility 0s .26s}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{opacity:1;visibility:visible;transform:none;transition:opacity .26s ease,transform .26s ease,visibility 0s}
+.grow{flex:1;min-height:0}
+.push{margin-top:auto}
+.side{display:none}
+/* buttons, chips */
+.btn{border:0;border-radius:12px;padding:.72rem 1rem;font-weight:600;background:var(--ink);color:#fff;flex:1;min-width:0}
+.btn.clay{background:var(--clay);color:#1c1300} .btn.ghost{background:var(--sage);color:var(--ink);flex:0 0 auto} .btn.big{width:100%;padding:.9rem 1rem;font-size:1rem;flex:none}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:.55rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{border:1.5px solid var(--rule);background:#fff;border-radius:99px;padding:.36rem .78rem;font-size:.8rem;color:var(--ink)}
+.chip.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tag{display:inline-block;font-size:.64rem;font-weight:600;border-radius:99px;padding:.08rem .5rem;background:var(--sage);color:var(--ink);margin-right:.3rem}
+.tag.c{background:var(--blush);color:var(--clay-d)}
+.hint{font-size:.78rem;color:var(--muted)}
+.note{font-size:.74rem;color:var(--muted)}
+/* home */
+.home h1{font-size:clamp(1.9rem,5.2vw,3.2rem);letter-spacing:-.01em}
+.home h1 em{font-style:normal;color:var(--clay-d)}
+.facts{display:flex;flex-wrap:wrap;gap:.35rem}
+.facts span{font-size:.74rem;background:var(--sage);color:var(--ink);border-radius:99px;padding:.22rem .65rem}
+.facts b{font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.tile{border:1.5px solid var(--rule);background:#fff;border-radius:var(--r);padding:.6rem .7rem;text-align:left;color:var(--text);display:flex;align-items:center;gap:.6rem;min-width:0}
+.tile svg{flex:none;width:30px;height:30px;padding:6px;border-radius:9px;background:var(--sage);stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile b{display:block;font-size:.84rem;font-weight:600;color:var(--ink);line-height:1.2}
+.tile small{display:block;font-size:.7rem;color:var(--muted);line-height:1.25}
+/* locker bank */
+.wall{background:var(--ink);color:#fff;border-radius:16px;padding:10px 12px}
+.wall-head{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;opacity:.9;gap:.6rem}
+.legend{display:flex;gap:.7rem;white-space:nowrap}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:.3rem;vertical-align:-1px;background:var(--sand)}
 .legend .b::before{background:var(--busy)} .legend .y::before{background:var(--clay)}
-.cam{display:inline-flex;align-items:center;gap:.35rem}
+.cam{display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap}
 .cam i{width:8px;height:8px;border-radius:50%;background:#ff6b5a;animation:blink 1.6s infinite}
 @keyframes blink{50%{opacity:.25}}
-.bank{display:grid;grid-template-columns:1.25fr 1.25fr 1fr 1fr .8fr .8fr;gap:8px;height:230px}
-.col{display:flex;flex-direction:column;gap:6px;min-width:0}
-.door{flex:1;border-radius:6px;background:var(--sand);position:relative;color:var(--ink);font-size:.62rem;font-weight:600;display:grid;place-items:center;transition:transform .5s,background .3s,box-shadow .3s,opacity .3s;transform-origin:left center}
+.bank{display:grid;grid-template-columns:1.25fr 1.25fr 1fr 1fr .8fr .8fr;gap:6px;height:84px;margin:8px 0}
+.col{display:flex;flex-direction:column;gap:4px;min-width:0}
+.door{flex:1;border-radius:4px;background:var(--sand);position:relative;color:var(--ink);font-size:0;font-weight:600;display:grid;place-items:center;transition:transform .5s,background .3s,box-shadow .3s,opacity .3s;transform-origin:left center}
 .door.busy{background:var(--busy);color:rgba(255,255,255,.55)}
-.door.dim{opacity:.35}
-.door.mine{background:var(--clay);color:#fff;box-shadow:0 0 0 3px rgba(233,149,43,.35);opacity:1}
+.door.dim{opacity:.3}
+.door.mine{background:var(--clay);color:#fff;box-shadow:0 0 0 2px rgba(233,149,43,.4);opacity:1}
 .door.open{transform:perspective(500px) rotateY(-42deg)}
-.door::after{content:"";position:absolute;right:6px;top:50%;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6}
-/* ticket */
-.ticket{background:#fff;color:var(--text);border-radius:20px;padding:1.3rem;box-shadow:0 18px 40px rgba(0,0,0,.25);min-width:0}
-.steps{display:flex;gap:6px;margin-bottom:.35rem}
+.mini{display:none}
+.wall.grow{flex-direction:column}
+.wall.grow .bank{flex:1;height:auto;min-height:64px}
+/* booking flow */
+.flowhead{display:flex;align-items:center;gap:.6rem}
+.back{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:var(--sage);color:var(--ink);display:grid;place-items:center}
+.back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.back[disabled]{visibility:hidden}
+.prog{flex:1}
+.steps{display:flex;gap:5px}
 .steps i{flex:1;height:4px;border-radius:2px;background:var(--rule)} .steps i.on{background:var(--clay)}
-.stepname{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-.ticket h3{font-family:var(--body);font-weight:600;font-size:1.08rem}
-.hint{font-size:.8rem;color:var(--muted);margin-top:.2rem}
-.opts{display:grid;gap:.5rem;margin-top:.9rem}
-.opt{display:flex;justify-content:space-between;align-items:center;gap:.8rem;text-align:left;width:100%;background:#fff;border:1.5px solid var(--rule);border-radius:12px;padding:.7rem .85rem;color:var(--text)}
-.opt:hover{border-color:var(--ink)} .opt.sel{border-color:var(--clay);background:var(--blush)}
-.opt b{display:block;font-weight:600;font-size:.93rem} .opt small{color:var(--muted);font-size:.78rem;display:block}
+.stepname{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:.3rem}
+#flow{display:flex;flex-direction:column;gap:.65rem;flex:1;min-height:0;animation:swap .26s ease}
+@keyframes swap{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.q{font-family:var(--display);font-size:1.3rem;font-weight:600;color:var(--ink);line-height:1.15}
+.or{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-size:.76rem}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--rule)}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:.7rem;text-align:left;width:100%;background:#fff;border:1.5px solid var(--rule);border-radius:12px;padding:.6rem .8rem;color:var(--text)}
+.opt.sel{border-color:var(--clay);background:var(--blush)}
+.opt b{display:block;font-weight:600;font-size:.9rem;color:var(--ink)} .opt small{color:var(--muted);font-size:.74rem;display:block}
 .opt .p{font-weight:700;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
 .opt .p small{font-weight:400}
-.opt[disabled]{opacity:.55;cursor:not-allowed}
-.tag{display:inline-block;font-size:.66rem;font-weight:600;border-radius:99px;padding:.1rem .55rem;background:var(--sage);color:var(--ink);margin-right:.35rem;vertical-align:1px}
-.tag.c{background:var(--blush);color:var(--clay-d)}
-.row{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
-.btn{border:0;border-radius:12px;padding:.78rem 1.1rem;font-weight:600;background:var(--ink);color:#fff;flex:1}
-.btn.clay{background:var(--clay);color:#1c1300} .btn.ghost{background:var(--sage);color:var(--ink);flex:0 0 auto} .btn.big{width:100%;padding:.95rem 1.1rem;font-size:1rem;flex:none}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.or{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-size:.78rem;margin:.9rem 0 .6rem}
-.or::before,.or::after{content:"";flex:1;height:1px;background:var(--rule)}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.chip{border:1.5px solid var(--rule);background:#fff;border-radius:99px;padding:.38rem .8rem;font-size:.82rem;color:var(--ink)}
-.chip:hover{border-color:var(--ink)} .chip.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--sage);border-radius:12px;padding:4px;margin-top:.9rem}
-.seg button{border:0;background:transparent;border-radius:9px;padding:.55rem;font-weight:600;color:var(--ink);font-size:.86rem}
-.seg button.sel{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-.sum{background:var(--sage);border-radius:12px;padding:.75rem .85rem;margin-top:.9rem;font-size:.85rem;display:grid;gap:.25rem}
-.sum div{display:flex;justify-content:space-between;gap:1rem} .sum .tot{font-weight:700;border-top:1px solid var(--rule);padding-top:.35rem;margin-top:.2rem}
-.pass{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;margin-top:.9rem}
-.qr{width:124px;height:124px;background:#fff;border:1.5px solid var(--rule);border-radius:10px;padding:6px}
+.opt[disabled]{opacity:.5;cursor:not-allowed}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.field{display:grid;gap:.2rem;font-size:.76rem;color:var(--muted);min-width:0}
+.field input,.field select{font:inherit;font-size:.92rem;color:var(--text);border:1.5px solid var(--rule);border-radius:10px;padding:.55rem .6rem;background:#fff;width:100%;min-width:0}
+.pricebox{background:var(--ink);color:#fff;border-radius:var(--r);padding:.8rem .9rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.pricebox .big{font-size:1.9rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.pricebox small{display:block;font-size:.74rem;opacity:.85}
+.pricebox .why{color:var(--sand);font-weight:600;font-size:.8rem;text-align:right}
+.check{display:flex;gap:.5rem;align-items:center;font-size:.82rem}
+.check input{width:18px;height:18px;accent-color:var(--clay);flex:none}
+.sum{background:var(--sage);border-radius:12px;padding:.6rem .8rem;font-size:.82rem;display:grid;gap:.15rem}
+.sum div{display:flex;justify-content:space-between;gap:1rem} .sum .tot{font-weight:700;border-top:1px solid var(--rule);padding-top:.3rem;margin-top:.15rem}
+.pass{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center;border:1.5px solid var(--rule);border-radius:var(--r);padding:.7rem}
+.qr{width:98px;height:98px;background:#fff;border:1.5px solid var(--rule);border-radius:10px;padding:5px}
 .qr svg{display:block;width:100%;height:100%}
-.code{font-size:1.9rem;font-weight:700;letter-spacing:.14em;color:var(--ink);font-variant-numeric:tabular-nums}
-.kv{font-size:.82rem;color:var(--muted)} .kv b{color:var(--text)}
-.note{font-size:.78rem;color:var(--muted);margin-top:.7rem}
-.msg2{border-radius:12px;padding:.7rem .85rem;font-size:.84rem;margin-top:.8rem;background:var(--blush);color:var(--ink)}
+.code{font-size:1.7rem;font-weight:700;letter-spacing:.12em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.kv{font-size:.76rem;color:var(--muted)} .kv b{color:var(--text)}
+.msg2{border-radius:12px;padding:.55rem .75rem;font-size:.8rem;background:var(--blush);color:var(--ink)}
 .msg2.ok{background:var(--okbg);color:var(--ok)} .msg2.late{background:var(--warnbg);color:var(--warn)}
 .msg2 b{display:block}
-.field{display:grid;gap:.25rem;margin-top:.7rem;font-size:.82rem;color:var(--muted)}
-.field input,.field select{font:inherit;color:var(--text);border:1.5px solid var(--rule);border-radius:10px;padding:.6rem .7rem;background:#fff;width:100%}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-.check{display:flex;gap:.55rem;align-items:flex-start;margin-top:.8rem;font-size:.84rem}
-.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--clay)}
-.test{border:1.5px dashed var(--rule);border-radius:12px;padding:.7rem .8rem;margin-top:.9rem}
-.test p{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.45rem}
-/* sections */
-section{padding-block:3.4rem}
-.alt{background:var(--sage)}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.8rem}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.8rem}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.8rem}
-.step{background:#fff;border-radius:var(--r);padding:1.1rem;min-width:0}
-.step .n{font-family:var(--display);font-size:2rem;color:var(--clay);line-height:1}
-.step h3{margin:.5rem 0 .3rem;font-family:var(--body);font-size:1rem}
-.step p,.card p{font-size:.87rem;color:var(--muted)}
-.card{border:1px solid var(--rule);border-radius:var(--r);padding:1.1rem;background:#fff;min-width:0}
-.card h3{font-family:var(--body);font-size:1rem;margin-bottom:.3rem}
-.card .tag{margin-bottom:.5rem}
-.tablebox{overflow-x:auto;margin-top:1.6rem;border:1px solid var(--rule);border-radius:var(--r)}
-table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
-th,td{text-align:left;padding:.8rem 1rem;border-bottom:1px solid var(--rule)}
-th{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--sage)}
-td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
-tr:last-child td{border-bottom:0}
-td b{color:var(--ink)}
-.dark{background:var(--ink);color:#fff} .dark h2{color:#fff} .dark .lead{color:rgba(255,255,255,.8)} .dark .eyebrow{color:var(--sand)}
-.dark .card{background:var(--ink2);border-color:rgba(255,255,255,.14)} .dark .card h3{color:#fff} .dark .card p{color:rgba(255,255,255,.78)}
-footer{background:var(--ink);color:rgba(255,255,255,.8);font-size:.82rem;padding-block:1.6rem}
-footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-/* assistant */
-.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--clay);color:#1c1300;border:0;border-radius:99px;padding:.8rem 1.1rem;font-weight:600;box-shadow:0 10px 24px rgba(0,0,0,.25);z-index:20}
-.chat{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(74px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100vw - 32px));background:#fff;border-radius:18px;box-shadow:0 18px 48px rgba(0,0,0,.3);z-index:20;overflow:hidden;border:1px solid var(--rule)}
-.chat header{background:var(--ink);color:#fff;padding:.8rem 1rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-.chat header small{display:block;font-weight:400;opacity:.75;font-size:.72rem}
-.chat header button{background:none;border:0;color:#fff;font-size:1.2rem;line-height:1}
-.log{height:250px;overflow-y:auto;padding:.8rem;display:flex;flex-direction:column;gap:.5rem;background:var(--sage)}
-.msg{max-width:86%;padding:.55rem .75rem;border-radius:14px;font-size:.85rem;background:#fff}
-.msg.me{align-self:flex-end;background:var(--ink);color:#fff}
-.chat .chips{padding:.6rem .8rem 0} .chat .chips button{border:1px solid var(--rule);background:#fff;border-radius:99px;padding:.3rem .7rem;font-size:.76rem;color:var(--ink)}
-.chat form{display:flex;gap:.4rem;padding:.7rem .8rem}
-.chat input{flex:1;min-width:0;border:1.5px solid var(--rule);border-radius:10px;padding:.55rem .7rem;font:inherit}
-.chat form button{border:0;background:var(--ink);color:#fff;border-radius:10px;padding:0 .9rem;font-weight:600}
-@media (max-width:860px){
-  .hero-grid{grid-template-columns:1fr;grid-template-areas:"head" "ticket" "wall";gap:1.4rem}
-  .wall{margin-top:0}
-  .grid4{grid-template-columns:1fr 1fr} .grid3,.grid2{grid-template-columns:1fr}
-  nav{display:none}
+.test{border:1.5px dashed var(--rule);border-radius:12px;padding:.5rem .65rem}
+.test p{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.35rem}
+/* info screens */
+.plist{display:grid;gap:.5rem}
+.prow{display:grid;grid-template-columns:1fr auto;gap:.2rem .8rem;align-items:center;border:1.5px solid var(--rule);border-radius:var(--r);padding:.6rem .8rem}
+.prow b{font-size:1rem;color:var(--ink)} .prow small{display:block;font-size:.74rem;color:var(--muted)}
+.prow .rate{text-align:right;line-height:1.05} .prow .rate b{font-size:1.5rem;font-variant-numeric:tabular-nums} .prow .rate span{font-size:.72rem;color:var(--muted)}
+.prow .caps{grid-column:1/-1;display:flex;gap:.4rem;flex-wrap:wrap}
+.prow .caps span{font-size:.72rem;background:var(--sage);border-radius:99px;padding:.14rem .6rem;color:var(--ink)}
+.prow.beach{background:var(--blush);border-color:transparent}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.g3{display:grid;grid-template-columns:1fr;gap:.5rem}
+.card{border:1.5px solid var(--rule);border-radius:var(--r);padding:.6rem .7rem;background:#fff;min-width:0}
+.card h3{font-size:.84rem;line-height:1.2;margin-bottom:.15rem}
+.card p{font-size:.74rem;color:var(--muted);line-height:1.35}
+.card svg{width:28px;height:28px;padding:5px;border-radius:8px;background:var(--sage);stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.3rem;display:block}
+.card.hot{background:var(--ink);border-color:var(--ink)} .card.hot h3{color:#fff} .card.hot p{color:rgba(255,255,255,.82)} .card.hot svg{background:rgba(255,255,255,.14);stroke:#fff}
+.stepc{display:grid;grid-template-columns:auto 1fr;gap:.1rem .8rem;align-items:center;border:1.5px solid var(--rule);border-radius:var(--r);padding:.65rem .8rem}
+.stepc .n{grid-row:span 2;font-family:var(--display);font-size:2rem;color:var(--clay);line-height:1;width:1.4rem;text-align:center}
+.stepc p{font-size:.78rem;color:var(--muted)}
+.ans{background:var(--sage);border-radius:var(--r);padding:.75rem .85rem;font-size:.86rem;flex:1;min-height:5.5rem;display:flex;flex-direction:column;gap:.25rem;animation:swap .26s ease}
+.ans b{color:var(--ink)} .ans.empty{color:var(--muted);justify-content:center;align-items:center;text-align:center}
+.ask{display:flex;gap:.4rem}
+.ask input{flex:1;min-width:0;border:1.5px solid var(--rule);border-radius:10px;padding:.6rem .7rem;font:inherit}
+.ask button{border:0;background:var(--ink);color:#fff;border-radius:10px;padding:0 1rem;font-weight:600}
+@media (min-height:720px){
+  .mini{display:block}
+  .wall.grow.mini{display:flex}
+  .mini.tall{display:none}
+  .screen{gap:.85rem}
 }
-@media (max-width:460px){.opt.site{flex-direction:column;align-items:flex-start;gap:.3rem}.opt.site .p{text-align:left}.opt.site .p small{display:inline;margin-left:.5rem}.grid4{grid-template-columns:1fr}.bank{height:190px}.pass{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.door{transition:none}.cam i{animation:none}}
+@media (min-height:800px){
+  .mini.tall{display:block}
+  .mini.tall .bank{height:54px}
+}
+@media (max-height:700px) and (max-width:899px){
+  .screen{gap:.5rem;padding-top:.7rem;padding-bottom:.6rem}
+  #flow{gap:.45rem}
+  #flow .hint,#flow .note,.screen>.note,.screen .lead{display:none}
+  .home .lead{display:block}
+  .q{font-size:1.15rem}
+  .qr{width:84px;height:84px}
+  .card svg{display:none}
+  .prow{padding:.45rem .7rem}
+  .pass{padding:.5rem .6rem}
+  .test{padding:.4rem .6rem}
+  .test p{margin-bottom:.25rem}
+  .msg2{padding:.45rem .65rem;font-size:.78rem}
+}
+/* wide: tabs go into the bar, the locker bank stays on the right */
+@media (min-width:900px){
+  body{font-size:16px}
+  .app{grid-template-rows:auto minmax(0,1fr);grid-template-areas:"bar" "stage"}
+  .bar{padding-block:.8rem}
+  .tabs{grid-area:bar;justify-self:center;align-self:center;background:none;border:0;padding:0;display:flex;gap:.3rem;z-index:1}
+  .tabs button{color:rgba(255,255,255,.8);grid-auto-flow:column;align-items:center;gap:.4rem;padding:.45rem .85rem;border-radius:99px;font-size:.84rem}
+  .tabs svg{width:17px;height:17px}
+  .tabs button.on{background:#fff;color:var(--ink)} .tabs button.on::before{display:none}
+  .tabs button.cta svg{stroke:currentColor}
+  .stage{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);max-width:1240px;width:100%;margin:0 auto}
+  .screen{padding:clamp(1.2rem,3.5vh,2.6rem) 2rem clamp(1rem,3vh,2rem) var(--gut);gap:clamp(.7rem,1.8vh,1.2rem);justify-content:center}
+  .push{margin-top:0}
+  .grow{flex:0 1 auto}
+  .mini,.mini.tall,.wall.grow.mini{display:none}
+  .side{display:flex;flex-direction:column;justify-content:center;gap:.8rem;padding:clamp(1rem,3vh,2rem) var(--gutr) clamp(1rem,3vh,2rem) 0;min-height:0}
+  .side .wall{padding:18px 20px;border-radius:22px}
+  .side .bank{height:min(46vh,340px);gap:9px;margin:14px 0}
+  .side .col{gap:7px} .side .door{border-radius:7px;font-size:.66rem}
+  .side .door::after{content:"";position:absolute;right:6px;top:50%;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6}
+  .side .wall-head{font-size:.8rem}
+  .sidefacts{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+  .sidefacts div{background:var(--sage);border-radius:var(--r);padding:.7rem .8rem;font-size:.78rem;color:var(--muted)}
+  .sidefacts b{display:block;font-size:1.15rem;color:var(--ink);font-family:var(--display)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2.six{grid-template-columns:repeat(3,1fr)}
+  .card{padding:.85rem .95rem} .card h3{font-size:.95rem} .card p{font-size:.82rem}
+  .stepc{grid-template-columns:1fr;align-content:start;padding:1rem} .stepc .n{grid-row:auto;text-align:left;font-size:2.4rem} .stepc p{font-size:.84rem}
+  .tile{padding:.8rem .9rem} .tile b{font-size:.92rem} .tile small{font-size:.76rem}
+  .q{font-size:1.6rem}
+  .qr{width:120px;height:120px} .code{font-size:2rem}
+  .prow{padding:.8rem 1rem}
+}
+@media (prefers-reduced-motion:reduce){.screen,.screen.on{transition:none;transform:none}#flow,.ans{animation:none}.door{transition:none}.cam i{animation:none}}
 </style>
 </head>
 <body>
 
 
-<div class="demo"><div class="wrap">Prototype for a Cairo University entrepreneurship project. No real bookings or payments are taken, and the locations shown are examples.</div></div>
+<div class="app">
+  <header class="bar">
+    <button class="logo" type="button" data-go="home" aria-label="SafeSpot home"><i></i>safespot</button>
+    <span class="proto">Prototype · no real payments</span>
+  </header>
 
-<div class="hero" id="home">
-  <div class="wrap">
-    <div class="top">
-      <a class="logo" href="#home"><i></i>safespot</a>
-      <nav aria-label="Main">
-        <a href="#how">How it works</a><a href="#prices">Prices</a><a href="#places">Where</a><a href="#whatif">What if</a><a href="#safety">Safety</a><a href="#business">For venues</a>
-      </nav>
-    </div>
-    <div class="hero-grid">
-      <div class="hhead">
+  <main class="stage">
+    <div class="screens">
+
+      <section class="screen home on" data-s="home" aria-label="Home">
+        <p class="eyebrow">Self-service lockers in Egypt</p>
         <h1>Leave your things.<br><em>Enjoy your day.</em></h1>
-        <p class="sub">Self-service lockers at malls, concerts, stations and beach clubs. Find the nearest one, book in three steps, open with your code.</p>
+        <p class="lead">At malls, concerts, stations and beach clubs. Find the nearest locker, book in three steps and open it with your code.</p>
         <div class="facts"><span><b>From EGP 15</b> an hour</span><span><b>No app</b> to download</span><span><b>No staff</b> to wait for</span></div>
-      </div>
-      <div class="ticket" id="ticket" aria-live="polite"></div>
-      <div class="wall" aria-label="Locker bank availability">
-        <div class="wall-head"><span id="wallTitle">20 lockers</span>
-          <span class="legend"><span>Free</span><span class="b">In use</span><span class="y">Yours</span></span></div>
-        <div class="bank" id="bank"></div>
-        <div class="wall-head" style="margin:10px 0 0"><span class="cam"><i></i>Camera covers every door, day and night</span><span>4 Large · 6 Medium · 10 Small</span></div>
-      </div>
+        <div class="wall mini grow" aria-hidden="true">
+          <div class="wall-head"><span data-bankfree>20 lockers</span><span class="cam"><i></i>Camera on every door</span></div>
+          <div class="bank" data-bank></div>
+          <div class="wall-head"><span class="legend"><span>Free</span><span class="b">In use</span><span class="y">Yours</span></span><span>4 Large · 6 Medium · 10 Small</span></div>
+        </div>
+        <button class="btn clay big push" type="button" data-go="book">Find a locker near me</button>
+        <div class="tiles">
+          <button class="tile" type="button" data-go="how"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><b>How it works</b><small>Three steps, one minute</small></span></button>
+          <button class="tile" type="button" data-go="where"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.800 7 11 7 11z"/><circle cx="12" cy="10" r="2.500"/></svg><span><b>Where we are</b><small>Malls, events, beaches</small></span></button>
+          <button class="tile" type="button" data-go="help" data-ask="I will be late"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/></svg><span><b>What if I am late?</b><small>The door still opens</small></span></button>
+          <button class="tile" type="button" data-go="venues"><svg viewBox="0 0 24 24"><path d="M4 20V8l8-4 8 4v12M9 20v-6h6v6"/></svg><span><b>For venues</b><small>Give a wall, earn 20%</small></span></button>
+        </div>
+      </section>
+
+      <section class="screen" data-s="book" aria-label="Book a locker" aria-live="polite">
+        <div class="flowhead"><button class="back" type="button" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="prog" id="prog"></div></div>
+        <div id="flow"></div>
+      </section>
+
+      <section class="screen" data-s="prices" aria-label="Prices">
+        <div><p class="eyebrow">Prices</p><h2>Pay by the hour</h2><p class="lead">Four hours and a full day are capped, so you never pay more. No service fee.</p></div>
+        <div class="plist">
+          <div class="prow"><span><b>Small</b><small>Phone, wallet, keys, handbag</small></span><span class="rate"><b>EGP 15</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 50</span><span>Full day EGP 90</span></span></div>
+          <div class="prow"><span><b>Medium</b><small>Backpack, laptop bag, shopping bags</small></span><span class="rate"><b>EGP 20</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 70</span><span>Full day EGP 120</span></span></div>
+          <div class="prow"><span><b>Large</b><small>Cabin suitcase, travel bag</small></span><span class="rate"><b>EGP 25</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 90</span><span>Full day EGP 150</span></span></div>
+          <div class="prow beach"><span><b>Beach day pass</b><small>Small locker with a charging socket</small></span><span class="rate"><b>EGP 100</b><br><span>all day</span></span></div>
+        </div>
+        <p class="note">Example: 3 hours in a Small locker is EGP 45. Late? Extra hours cost the same rate.</p>
+        <button class="btn clay big push" type="button" data-go="book">Book a locker</button>
+      </section>
+
+      <section class="screen" data-s="safety" aria-label="Safety">
+        <div><p class="eyebrow">Safety and security</p><h2>Safe without anyone standing guard</h2></div>
+        <div class="g2 six">
+          <div class="card hot"><svg viewBox="0 0 24 24"><path d="M3 8h11v8H3zM14 11l6-3v8l-6-3"/></svg><h3>A camera on every door</h3><p>Records day and night. Footage is kept 30 days.</p></div>
+          <div class="card"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><h3>A code for each booking</h3><p>Six digits, one locker, cancelled when you collect.</p></div>
+          <div class="card"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6 16c.8-1.500 5.200-1.500 6 0"/></svg><h3>We know who booked</h3><p>A mobile number always; ID for Large and full days.</p></div>
+          <div class="card"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Cover up to EGP 10,000</h3><p>Planned cover for stored items on every booking.</p></div>
+          <div class="card"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M6 6l12 12"/></svg><h3>Banned items</h3><p>No weapons, drugs, flammables, animals or fresh food.</p></div>
+          <div class="card"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H10l-5 4z"/></svg><h3>Help on WhatsApp</h3><p>Arabic and English, every day, 09:00 to midnight.</p></div>
+        </div>
+        <button class="btn big push" type="button" data-go="help" data-ask="Is it safe?">Ask a safety question</button>
+      </section>
+
+      <section class="screen" data-s="help" aria-label="Help">
+        <div><p class="eyebrow">Help</p><h2>Ask SafeSpot</h2><p class="lead">Tap a question. This demo uses scripted answers; the live version will use an AI model.</p></div>
+        <div class="chips" id="qchips"></div>
+        <div class="ans empty" id="ans">Pick a question to see the answer here.</div>
+        <form class="ask" id="askForm"><input id="askIn" placeholder="Or type your question…" autocomplete="off" aria-label="Your question"><button>Ask</button></form>
+      </section>
+
+      <section class="screen" data-s="how" aria-label="How it works">
+        <div><p class="eyebrow">How it works</p><h2>Three steps, about one minute</h2></div>
+        <div class="g3">
+          <div class="stepc"><div class="n">1</div><h3>Find</h3><p>Share your location or pick your area. We show the nearest lockers and how many are free.</p></div>
+          <div class="stepc"><div class="n">2</div><h3>Choose</h3><p>Small, Medium or Large, from now or later today. You see the price before you pay.</p></div>
+          <div class="stepc"><div class="n">3</div><h3>Pay and open</h3><p>InstaPay, Apple Pay, card or wallet. Type your 6-digit code on the door, and again to collect.</p></div>
+        </div>
+        <button class="btn clay big push" type="button" data-go="book">Start: find a locker</button>
+      </section>
+
+      <section class="screen" data-s="where" aria-label="Where we are">
+        <div><p class="eyebrow">Where</p><h2>Where you need your hands free</h2><p class="lead">In our survey of 56 people the most wanted places were beaches, malls and event venues.</p></div>
+        <div class="g2">
+          <div class="card"><span class="tag c">Pilot, April 2027</span><h3>Shopping malls</h3><p>Drop your bags and keep shopping, or before the cinema.</p></div>
+          <div class="card"><span class="tag c">Summer 2027</span><h3>Beach clubs</h3><p>Phone, keys and wallet stay dry while you swim.</p></div>
+          <div class="card"><span class="tag">Planned</span><h3>Concerts and events</h3><p>Nothing to carry at the gate. Collect after the show.</p></div>
+          <div class="card"><span class="tag">Planned</span><h3>Stations and trips</h3><p>Store your bag between the train and the hotel.</p></div>
+        </div>
+        <button class="btn clay big push" type="button" data-go="book">Find the nearest one</button>
+      </section>
+
+      <section class="screen" data-s="venues" aria-label="For venues">
+        <div><p class="eyebrow">For venues and businesses</p><h2>Two ways to work with SafeSpot</h2></div>
+        <div class="g2">
+          <div class="card"><h3>Give us a wall</h3><p>2.5 m of wall and a socket. We install, run and insure it. You need no staff and earn 20%.</p></div>
+          <div class="card"><h3>Rent a locker bank</h3><p>A 20-door bank for your own guests, with software and maintenance, for a monthly fee.</p></div>
+        </div>
+        <form id="b2b" novalidate style="display:grid;gap:.5rem">
+          <div class="two"><label class="field" for="b2bName">Your name<input id="b2bName" required></label><label class="field" for="b2bPhone">Phone or WhatsApp<input id="b2bPhone" inputmode="tel" required></label></div>
+          <label class="field" for="b2bOrg">Organisation<input id="b2bOrg" required></label>
+          <label class="field" for="b2bType">I want to<select id="b2bType"><option>Give space for a bank (revenue share)</option><option>Rent a bank (monthly fee)</option></select></label>
+          <button class="btn big" type="submit">Ask for a proposal</button>
+          <p class="note" id="b2bMsg">We reply within one working day.</p>
+        </form>
+      </section>
+
     </div>
-  </div>
-</div>
+    <aside class="side" aria-label="Locker bank availability">
+      <div class="wall">
+        <div class="wall-head"><span data-banktitle>20 lockers</span><span class="legend"><span>Free</span><span class="b">In use</span><span class="y">Yours</span></span></div>
+        <div class="bank" data-bank></div>
+        <div class="wall-head"><span class="cam"><i></i>Camera covers every door, day and night</span><span>4 Large · 6 Medium · 10 Small</span></div>
+      </div>
+      <div class="sidefacts"><div><b>EGP 15</b>an hour for a Small locker</div><div><b>3 steps</b>find, choose, pay</div><div><b>No staff</b>your code opens the door</div></div>
+    </aside>
+  </main>
 
-<section id="how" class="alt"><div class="wrap">
-  <p class="eyebrow">How it works</p>
-  <h2>Three steps, about one minute</h2>
-  <div class="grid3">
-    <div class="step"><div class="n">1</div><h3>Find</h3><p>Share your location or pick your area. We show the nearest SafeSpot and how many lockers are free.</p></div>
-    <div class="step"><div class="n">2</div><h3>Choose</h3><p>Small, Medium or Large. Pick your times, from now or later today. You pay by the hour and see the price before you pay.</p></div>
-    <div class="step"><div class="n">3</div><h3>Pay and open</h3><p>Pay with InstaPay, Apple Pay, card or wallet. Type your 6-digit code on the door. The same code opens it when you come back.</p></div>
-  </div>
-</div></section>
-
-<section id="prices"><div class="wrap">
-  <p class="eyebrow">Prices</p>
-  <h2>Pay by the hour, with the price shown first</h2>
-  <p class="lead">You pay for the hours you book. Four hours and a full day have their own lower prices, so you never pay more than those. No service fee on top. Prices are in Egyptian pounds and include VAT.</p>
-  <div class="tablebox"><table>
-    <tr><th>Locker</th><th>Inside size</th><th>Fits</th><th class="n">Per hour</th><th class="n">4 hours</th><th class="n">Full day (24 h)</th></tr>
-    <tr><td><b>Small</b></td><td>40 × 30 × 50 cm</td><td>Phone, wallet, keys, handbag</td><td class="n"><b>EGP 15</b></td><td class="n">EGP 50</td><td class="n">EGP 90</td></tr>
-    <tr><td><b>Medium</b></td><td>55 × 40 × 60 cm</td><td>Backpack, laptop bag, shopping bags</td><td class="n"><b>EGP 20</b></td><td class="n">EGP 70</td><td class="n">EGP 120</td></tr>
-    <tr><td><b>Large</b></td><td>85 × 55 × 60 cm</td><td>Cabin suitcase, travel bag</td><td class="n"><b>EGP 25</b></td><td class="n">EGP 90</td><td class="n">EGP 150</td></tr>
-    <tr><td><b>Beach day pass</b></td><td>Small, with charging socket</td><td>Phone, keys, wallet</td><td class="n">–</td><td class="n">–</td><td class="n">EGP 100</td></tr>
-  </table></div>
-  <p class="note">Example: 2 hours in a Small locker is EGP 30, 3 hours is EGP 45, 4 hours is EGP 50. Running late? Extra hours cost the same hourly rate, never more than the full-day price.</p>
-</div></section>
-
-<section id="places" class="alt"><div class="wrap">
-  <p class="eyebrow">Where</p>
-  <h2>Where you need your hands free</h2>
-  <p class="lead">In our survey of 56 people, the most wanted places were beaches, shopping malls and event venues. We open first where there are no lockers today.</p>
-  <div class="grid4">
-    <div class="card"><span class="tag c">Pilot, April 2027</span><h3>Shopping malls</h3><p>Leave your bags and keep shopping, or drop them before the cinema.</p></div>
-    <div class="card"><span class="tag c">Summer 2027</span><h3>Beach clubs</h3><p>Phone, keys and wallet stay dry and charged while you swim.</p></div>
-    <div class="card"><span class="tag">Planned</span><h3>Concerts and events</h3><p>No bag checks to worry about. Collect up to one hour after the show.</p></div>
-    <div class="card"><span class="tag">Planned</span><h3>Stations and day trips</h3><p>Travelling inside Egypt? Store your bag between the train and the hotel.</p></div>
-  </div>
-</div></section>
-
-<section id="whatif"><div class="wrap">
-  <p class="eyebrow">What if</p>
-  <h2>We tested the awkward moments</h2>
-  <p class="lead">Nobody is ever locked out of their own things. You can try each case in the booking card after you book.</p>
-  <div class="grid4">
-    <div class="card"><h3>I come back late</h3><p>The door still opens with your code. Extra hours are added at your locker's hourly rate and you pay after you collect.</p></div>
-    <div class="card"><h3>My phone is inside</h3><p>You only need the code, not the phone. Choose your own code at booking so it is easy to remember.</p></div>
-    <div class="card"><h3>I forgot my code</h3><p>Call the number on the locker bank from any phone. We check your mobile number and ID, then give you a new code.</p></div>
-    <div class="card"><h3>The door will not open</h3><p>Support opens it from our side. If that fails, a technician comes within 4 hours and the rental is refunded.</p></div>
-  </div>
-</div></section>
-
-<section id="safety" class="dark"><div class="wrap">
-  <p class="eyebrow">Safety and security</p>
-  <h2>Safe without anyone standing guard</h2>
-  <div class="grid3">
-    <div class="card"><h3>A camera on every bank</h3><p>One camera covers all 20 doors and records day and night. Footage is kept for 30 days and given to the police if needed.</p></div>
-    <div class="card"><h3>A code for each booking</h3><p>Your 6-digit code works for one locker and one booking, and is cancelled when you collect.</p></div>
-    <div class="card"><h3>We know who booked</h3><p>A mobile number for every booking, and an ID or passport number for Large lockers and full-day stays.</p></div>
-    <div class="card"><h3>Cover up to EGP 10,000</h3><p>Planned cover for stored items on every booking. Cash, jewellery and banned items are excluded.</p></div>
-    <div class="card"><h3>Banned items</h3><p>No weapons, drugs, flammable items, animals or fresh food. Bookings are logged, and suspicious use is reported.</p></div>
-    <div class="card"><h3>Help on WhatsApp</h3><p>Support in Arabic and English, every day from 09:00 to midnight. The number is printed on every bank.</p></div>
-  </div>
-</div></section>
-
-<section id="business"><div class="wrap">
-  <p class="eyebrow">For venues and businesses</p>
-  <h2>Two ways to work with SafeSpot</h2>
-  <div class="grid2">
-    <div>
-      <div class="card"><h3>Give us a wall</h3><p>Malls, event venues, stations and beach clubs. We install, run, clean and insure the lockers. You give 2.5 m of wall and a power socket, need no staff, and earn 20% of every rental.</p></div>
-      <div class="card" style="margin-top:1rem"><h3>Rent a locker bank</h3><p>Hotels, gyms and event organisers. A 20-door bank for your own guests or members, with software and maintenance, for a fixed monthly fee.</p></div>
-    </div>
-    <form class="card" id="b2b" novalidate>
-      <h3>Ask for a proposal</h3>
-      <label class="field" for="b2bName">Your name<input id="b2bName" required></label>
-      <label class="field" for="b2bOrg">Organisation<input id="b2bOrg" required></label>
-      <label class="field" for="b2bType">I want to<select id="b2bType"><option>Give space for a locker bank (revenue share)</option><option>Rent a locker bank (monthly fee)</option></select></label>
-      <label class="field" for="b2bPhone">Phone or WhatsApp<input id="b2bPhone" inputmode="tel" required></label>
-      <div class="row"><button class="btn" type="submit">Send request</button></div>
-      <p class="note" id="b2bMsg">We reply within one working day.</p>
-    </form>
-  </div>
-</div></section>
-
-<footer><div class="wrap"><span>SafeSpot · Entrepreneurship project · Faculty of Commerce, Cairo University · 2026</span><span>Support: WhatsApp, Arabic and English</span></div></footer>
-
-<button class="fab" id="fab" aria-expanded="false" aria-controls="chat">Ask SafeSpot</button>
-<div class="chat" id="chat" hidden>
-  <header><span>SafeSpot assistant<small>Demo with scripted answers. The live version will use an AI model.</small></span><button id="chatX" aria-label="Close">×</button></header>
-  <div class="log" id="log"></div>
-  <div class="chips" id="chips"></div>
-  <form id="chatForm"><input id="chatIn" placeholder="Ask about sizes, prices, safety…" autocomplete="off" aria-label="Your question"><button>Send</button></form>
+  <nav class="tabs" id="tabs" aria-label="Main">
+    <button type="button" data-go="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>Home</button>
+    <button type="button" data-go="book" class="cta"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><circle cx="12" cy="11" r="1.600"/><path d="M12 12.500V15"/></svg>Book</button>
+    <button type="button" data-go="prices"><svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.500" cy="8.500" r="1.300"/></svg>Prices</button>
+    <button type="button" data-go="safety"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/></svg>Safety</button>
+    <button type="button" data-go="help"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H10l-5 4z"/></svg>Help</button>
+  </nav>
 </div>
 
 <script>
@@ -2591,117 +2654,154 @@ var SIZES={S:{name:'Small',dim:'40 × 30 × 50 cm',fits:'Phone, wallet, keys, ha
            L:{name:'Large',dim:'85 × 55 × 60 cm',fits:'Cabin suitcase, travel bag',r:25,p4:90,pd:150}};
 var PAY=['InstaPay','Apple Pay','Card','Mobile wallet'];
 var COLS=[['L',2],['L',2],['M',3],['M',3],['S',5],['S',5]];
+var STEPNAME={1:'Step 1 of 3 · Find',2:'Step 1 of 3 · Find',3:'Step 2 of 3 · Choose',4:'Step 2 of 3 · Choose',5:'Step 3 of 3 · Pay',6:'Booked'};
+var STEPBAR={1:1,2:1,3:2,4:2,5:3,6:3};
 var st={step:1,pos:null,posName:'',site:null,size:null,fromT:null,hrs:2,pay:'InstaPay',door:null,code:null,until:null,extra:0,phone:'',own:'',phoneIn:false,scn:null,locMsg:''};
-var bank=document.getElementById('bank'), T=document.getElementById('ticket');
+var T=document.getElementById('flow'),cur='home';
+function $$(s){return Array.prototype.slice.call(document.querySelectorAll(s));}
 function doors(){var a=[],n=0;COLS.forEach(function(c,ci){for(var i=0;i<c[1];i++){a.push({i:n,size:c[0],col:ci,label:c[0]+'-'+String(n+1).padStart(2,'0')});n++;}});return a;}
 var DOORS=doors();
 function curSite(){return st.site||SITES[0];}
 function drawBank(){
-  var site=curSite();bank.innerHTML='';
-  COLS.forEach(function(c,ci){var col=document.createElement('div');col.className='col';
-    DOORS.filter(function(d){return d.col===ci}).forEach(function(d){
-      var b=document.createElement('div');b.className='door';b.textContent=d.label;b.dataset.i=d.i;
-      if(site.busy.indexOf(d.i)>-1)b.classList.add('busy');
-      else if(st.step===2&&st.size&&d.size!==st.size)b.classList.add('dim');
-      if(st.door&&st.door.i===d.i){b.classList.add('mine');if(st.opened)b.classList.add('open');}
-      col.appendChild(b);});
-    bank.appendChild(col);});
-  document.getElementById('wallTitle').textContent=site.name+' · '+(20-site.busy.length)+' of 20 free';
+  var site=curSite();
+  $$('[data-bank]').forEach(function(bank){bank.innerHTML='';
+    COLS.forEach(function(c,ci){var col=document.createElement('div');col.className='col';
+      DOORS.filter(function(d){return d.col===ci}).forEach(function(d){
+        var b=document.createElement('div');b.className='door';b.textContent=d.label;
+        if(site.busy.indexOf(d.i)>-1)b.classList.add('busy');
+        else if(st.step===3&&st.size&&d.size!==st.size)b.classList.add('dim');
+        if(st.door&&st.door.i===d.i){b.classList.add('mine');if(st.opened)b.classList.add('open');}
+        col.appendChild(b);});
+      bank.appendChild(col);});});
+  $$('[data-banktitle]').forEach(function(e){e.textContent=site.name+' · '+(20-site.busy.length)+' of 20 free';});
+  $$('[data-bankfree]').forEach(function(e){e.textContent=(20-site.busy.length)+' of 20 lockers free';});
 }
 function free(size,site){site=site||curSite();return DOORS.filter(function(d){return d.size===size&&site.busy.indexOf(d.i)<0});}
 function cost(k,hr){var s=SIZES[k];hr=Math.max(1,Math.min(24,hr));return hr<=4?Math.min(hr*s.r,s.p4):Math.min(s.p4+(hr-4)*s.r,s.pd);}
-function tier(k,hr){var s=SIZES[k],c=cost(k,hr);return c>=s.pd?'day price':(hr>=4&&hr*s.r>c?'4-hour price':'EGP '+s.r+' an hour');}
+function tier(k,hr){var s=SIZES[k],c=cost(k,hr);return c>=s.pd?'Full-day price':(hr>=4&&hr*s.r>c?'4-hour price':'EGP '+s.r+' an hour');}
 function H(){return st.hrs+st.extra;}
 function price(){return cost(st.size,H());}
 function nextFee(){return cost(st.size,H()+1)-cost(st.size,H());}
 function fromD(){var n=new Date();return (st.fromT&&st.fromT>n.getTime())?new Date(st.fromT):n;}
 function toD(){return new Date(fromD().getTime()+st.hrs*3600000);}
+function fmt(d){return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
 function clock(d){var n=new Date();return fmt(d)+(d.toDateString()!==n.toDateString()?' tomorrow':'');}
 function hrsTxt(x){return x>=24?'full day':x+(x===1?' hour':' hours');}
 function slots(){var n=new Date(),a=[[0,'Now · '+fmt(n)]],d=new Date(n.getTime());d.setSeconds(0,0);d.setMinutes(d.getMinutes()<30?30:60);
   var end=new Date(n.getTime());end.setHours(23,30,0,0);while(d<=end){a.push([d.getTime(),fmt(d)]);d=new Date(d.getTime()+1800000);}return a;}
-function fmt(d){return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
 function km(a,b,c,d){var R=6371,x=(c-a)*Math.PI/180,y=(d-b)*Math.PI/180,q=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(q));}
 function away(k){if(k<1.2)return Math.max(1,Math.round(k*13))+' min walk';if(k<60)return 'about '+Math.max(4,Math.round(k*2.4))+' min drive';return 'about '+Math.round(k/75*10)/10+' h drive';}
 function dist(k){return k<1?Math.round(k*1000/50)*50+' m':(k<20?k.toFixed(1):Math.round(k))+' km';}
 function h(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
-function bar(n,name){var s='<div class="steps">';for(var i=1;i<=3;i++)s+='<i class="'+(i<=n?'on':'')+'"></i>';return s+'</div><div class="stepname">'+name+'</div>';}
+function btn(cls,txt,fn){var b=h('button',cls,txt);b.type='button';b.onclick=fn;return b;}
+
+/* screens */
+function show(name,keepHash){
+  if(!document.querySelector('.screen[data-s="'+name+'"]'))name='home';
+  cur=name;
+  $$('.screen').forEach(function(s){s.classList.toggle('on',s.dataset.s===name);});
+  $$('#tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.go===name);});
+  if(!keepHash){try{if(location.hash!=='#'+name)history.replaceState(null,'','#'+name);}catch(e){}}
+}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;show(b.dataset.go);if(b.dataset.ask)answer(b.dataset.ask);});
+window.addEventListener('hashchange',function(){show(location.hash.slice(1)||'home',true);});
+
+/* booking */
 function go(n){st.step=n;render();drawBank();}
-function setPos(lat,lng,name){st.pos=[lat,lng];st.posName=name;st.locMsg='';st.site=null;render();drawBank();}
+function setPos(lat,lng,name){st.pos=[lat,lng];st.posName=name;st.locMsg='';st.site=null;go(2);}
 function locate(){
   st.locMsg='Finding you…';render();
-  function fail(){st.locMsg='We could not read your location here. Pick your area instead.';render();}
+  function fail(){st.locMsg='We could not read your location. Pick your area instead.';render();}
   if(!navigator.geolocation){fail();return;}
   try{navigator.geolocation.getCurrentPosition(function(p){setPos(p.coords.latitude,p.coords.longitude,'your location');},fail,{timeout:7000,maximumAge:60000});}catch(e){fail();}
 }
+function head(){
+  var n=STEPBAR[st.step],s='<div class="steps">';for(var i=1;i<=3;i++)s+='<i class="'+(i<=n?'on':'')+'"></i>';
+  document.getElementById('prog').innerHTML=s+'</div><div class="stepname">'+STEPNAME[st.step]+'</div>';
+  var bk=document.getElementById('back');bk.disabled=(st.step===1||st.step===6);
+}
+document.getElementById('back').onclick=function(){keep();if(st.step>1&&st.step<6)go(st.step-1);};
+function mini(tall){return h('div','wall mini'+(tall?' tall':''),'<div class="wall-head"><span data-bankfree></span><span class="legend"><span>Free</span><span class="b">In use</span><span class="y">Yours</span></span></div><div class="bank" data-bank></div>');}
 function render(){
-  T.innerHTML='';
+  head();T.innerHTML='';T.style.animation='none';void T.offsetWidth;T.style.animation='';
   if(st.step===1){
-    T.innerHTML=bar(1,'Step 1 of 3 · Find')+'<h3>Find a locker near you</h3><p class="hint">We show the nearest SafeSpot and how many lockers are free right now.</p>';
-    var lb=h('button','btn clay big','Use my location');lb.type='button';lb.style.marginTop='.9rem';lb.onclick=locate;T.appendChild(lb);
+    T.appendChild(h('div','q','Where are you?'));
+    T.appendChild(h('p','hint','We show the nearest SafeSpot and how many lockers are free right now.'));
+    T.appendChild(btn('btn clay big','Use my location',locate));
     if(st.locMsg)T.appendChild(h('p','note',st.locMsg));
     T.appendChild(h('div','or','or choose your area'));
-    var ch=h('div','chips');AREAS.forEach(function(a){var c=h('button','chip'+(st.posName===a[0]?' sel':''),a[0]);c.type='button';c.onclick=function(){setPos(a[1],a[2],a[0]);};ch.appendChild(c);});T.appendChild(ch);
-    if(st.pos){
-      var list=SITES.map(function(s){return {s:s,k:km(st.pos[0],st.pos[1],s.lat,s.lng)};}).sort(function(a,b){return a.k-b.k}).slice(0,3);
-      T.appendChild(h('p','hint','<b style="color:var(--ink)">Nearest to '+st.posName+'</b>'));
-      var o=h('div','opts');o.style.marginTop='.5rem';
-      list.forEach(function(x,i){var f=20-x.s.busy.length;
-        var b=h('button','opt site'+(i===0?' sel':''),'<span><b>'+x.s.name+'</b><small><span class="tag'+(i===0?' c':'')+'">'+(i===0?'Nearest':x.s.type)+'</span>'+x.s.hours+'</small></span><span class="p">'+dist(x.k)+'<small>'+away(x.k)+' · '+f+' free</small></span>');
-        b.type='button';b.onclick=function(){st.site=x.s;st.size=null;st.door=null;go(2);};o.appendChild(b);});
-      T.appendChild(o);
-    }
+    var ch=h('div','chips');AREAS.forEach(function(a){ch.appendChild(btn('chip'+(st.posName===a[0]?' sel':''),a[0],function(){setPos(a[1],a[2],a[0]);}));});T.appendChild(ch);
   }else if(st.step===2){
-    T.innerHTML=bar(2,'Step 2 of 3 · Choose')+'<h3>What are you storing, and for how long?</h3><p class="hint">'+st.site.name+' · '+st.site.where+'</p>';
+    T.appendChild(h('div','q','Nearest to '+st.posName));
+    T.appendChild(h('p','hint','Tap a locker bank to book there.'));
+    var list=SITES.map(function(s){return {s:s,k:km(st.pos[0],st.pos[1],s.lat,s.lng)};}).sort(function(a,b){return a.k-b.k}).slice(0,3);
+    var o=h('div','opts');
+    list.forEach(function(x,i){var f=20-x.s.busy.length;
+      o.appendChild(btn('opt'+(i===0?' sel':''),'<span><b>'+x.s.name+'</b><small><span class="tag'+(i===0?' c':'')+'">'+(i===0?'Nearest':x.s.type)+'</span>'+x.s.hours+'</small></span><span class="p">'+dist(x.k)+'<small>'+away(x.k)+'</small><small>'+f+' free</small></span>',
+        function(){st.site=x.s;st.size=null;st.door=null;go(3);}));});
+    T.appendChild(o);
+  }else if(st.step===3){
+    T.appendChild(h('div','q','What are you storing?'));
+    T.appendChild(h('p','hint',st.site.name+' · '+st.site.where));
+    var o2=h('div','opts');['S','M','L'].forEach(function(k){var s=SIZES[k],f=free(k).length;
+      var b=btn('opt'+(st.size===k?' sel':''),'<span><b>'+s.name+'</b><small>'+s.fits+'</small><small>'+s.dim+' · '+(f?f+' free':'none free now')+'</small></span><span class="p">EGP '+s.r+'<small>an hour</small></span>',
+        function(){st.size=k;go(4);});
+      if(!f)b.disabled=true;o2.appendChild(b);});
+    T.appendChild(o2);
+    T.appendChild(mini());
+  }else if(st.step===4){
     if(st.fromT&&st.fromT<=Date.now())st.fromT=null;
-    var tw=h('div','two');tw.style.marginTop='.9rem';
+    T.appendChild(h('div','q','For how long?'));
+    T.appendChild(h('p','hint',SIZES[st.size].name+' locker · '+st.site.name));
+    var tw=h('div','two');
     var fo=slots().map(function(x){return '<option value="'+x[0]+'"'+((st.fromT||0)===x[0]?' selected':'')+'>'+x[1]+'</option>';}).join('');
     var lf=h('label','field','From<select id="tFrom">'+fo+'</select>');lf.htmlFor='tFrom';tw.appendChild(lf);
     var f0=fromD(),uo='';[1,2,3,4,5,6,8,10,12,24].forEach(function(x){uo+='<option value="'+x+'"'+(st.hrs===x?' selected':'')+'>'+clock(new Date(f0.getTime()+x*3600000))+' · '+hrsTxt(x)+'</option>';});
     var lu=h('label','field','Until (estimated)<select id="tTo">'+uo+'</select>');lu.htmlFor='tTo';tw.appendChild(lu);T.appendChild(tw);
     lf.querySelector('select').onchange=function(e){st.fromT=+e.target.value||null;render();};
     lu.querySelector('select').onchange=function(e){st.hrs=+e.target.value;render();};
-    T.appendChild(h('p','hint','Only times from now on are shown. You pay by the hour; if you come back later, extra hours are added at the same rate.'));
-    var o2=h('div','opts');['S','M','L'].forEach(function(k){var s=SIZES[k],f=free(k).length;
-      var b=h('button','opt'+(st.size===k?' sel':''),'<span><b>'+s.name+'</b><small>'+s.fits+'</small><small>'+s.dim+' · '+(f?f+' free':'none free now')+'</small></span><span class="p">EGP '+cost(k,st.hrs)+'<small>'+tier(k,st.hrs)+'</small></span>');
-      b.type='button';if(!f)b.disabled=true;b.onclick=function(){st.size=k;render();drawBank();};o2.appendChild(b);});
-    T.appendChild(o2);
-    var r=h('div','row');var bk=h('button','btn ghost','Back');bk.type='button';bk.onclick=function(){go(1)};r.appendChild(bk);
-    var nx=h('button','btn clay',st.size?'Continue · EGP '+price():'Continue');nx.type='button';nx.disabled=!st.size;nx.onclick=function(){go(3)};r.appendChild(nx);T.appendChild(r);
-  }else if(st.step===3){
-    T.innerHTML=bar(3,'Step 3 of 3 · Pay')+'<h3>Pay and get your code</h3><p class="hint">'+SIZES[st.size].name+' locker · '+fmt(fromD())+' to '+clock(toD())+' ('+hrsTxt(st.hrs)+') · '+st.site.name+'</p>';
-    var pc=h('div','chips');pc.style.marginTop='.9rem';PAY.forEach(function(p){var c=h('button','chip'+(st.pay===p?' sel':''),p);c.type='button';c.onclick=function(){keep();st.pay=p;render();};pc.appendChild(c);});T.appendChild(pc);
+    var qc=h('div','chips');[[1,'1 hour'],[2,'2 hours'],[3,'3 hours'],[4,'4 hours'],[6,'6 hours'],[24,'Full day']].forEach(function(x){qc.appendChild(btn('chip'+(st.hrs===x[0]?' sel':''),x[1],function(){st.hrs=x[0];render();}));});T.appendChild(qc);
+    T.appendChild(h('div','pricebox','<span><span class="big">EGP '+price()+'</span><small>'+fmt(fromD())+' to '+clock(toD())+' · '+hrsTxt(st.hrs)+'</small></span><span class="why">'+tier(st.size,st.hrs)+'</span>'));
+    T.appendChild(h('p','hint','Only times from now on are shown. If you come back later, extra hours are added at the same hourly rate.'));
+    var nx=btn('btn clay big push','Continue · EGP '+price(),function(){go(5)});T.appendChild(nx);
+  }else if(st.step===5){
+    T.appendChild(h('div','q','Pay and get your code'));
+    T.appendChild(h('p','hint',SIZES[st.size].name+' locker · '+fmt(fromD())+' to '+clock(toD())+' · '+st.site.name));
+    var pc=h('div','chips');PAY.forEach(function(p){pc.appendChild(btn('chip'+(st.pay===p?' sel':''),p,function(){keep();st.pay=p;render();}));});T.appendChild(pc);
     var two=h('div','two');
     var l1=h('label','field','Mobile number<input id="tPhone" inputmode="tel" placeholder="01x xxxx xxxx" value="'+st.phone+'">');l1.htmlFor='tPhone';two.appendChild(l1);
-    var l2=h('label','field','Choose your own code (optional)<input id="tOwn" inputmode="numeric" maxlength="6" placeholder="6 digits" value="'+st.own+'">');l2.htmlFor='tOwn';two.appendChild(l2);T.appendChild(two);
+    var l2=h('label','field','Your own code (optional)<input id="tOwn" inputmode="numeric" maxlength="6" placeholder="6 digits" value="'+st.own+'">');l2.htmlFor='tOwn';two.appendChild(l2);T.appendChild(two);
     var ck=h('label','check','<input type="checkbox" id="tIn"'+(st.phoneIn?' checked':'')+'><span>I am putting my phone in the locker</span>');ck.htmlFor='tIn';T.appendChild(ck);
     ck.querySelector('input').onchange=function(e){keep();st.phoneIn=e.target.checked;render();};
-    if(st.phoneIn)T.appendChild(h('div','msg2','<b>You will not need your phone to collect.</b>Only the 6-digit code. Pick a code you will remember, or write it down.'));
+    if(st.phoneIn)T.appendChild(h('div','msg2','<b>You will not need your phone to collect.</b>Only the 6-digit code. Pick one you will remember.'));
     T.appendChild(h('div','sum','<div><span>'+SIZES[st.size].name+' locker, '+hrsTxt(st.hrs)+'</span><span>EGP '+price()+'</span></div><div><span>Service fee</span><span>EGP 0</span></div><div class="tot"><span>Total</span><span>EGP '+price()+'</span></div>'));
-    var r3=h('div','row');var b3=h('button','btn ghost','Back');b3.type='button';b3.onclick=function(){keep();go(2)};r3.appendChild(b3);
-    var p3=h('button','btn clay','Pay EGP '+price()+' with '+st.pay);p3.type='button';p3.onclick=book;r3.appendChild(p3);T.appendChild(r3);
+    T.appendChild(btn('btn clay big push','Pay EGP '+price()+' with '+st.pay,book));
     T.appendChild(h('p','note','This prototype takes no money.'));
   }else{
     var s5=SIZES[st.size];
-    T.innerHTML='<div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="stepname">Booked</div><h3>Your locker is ready</h3><p class="hint">'+st.site.name+' · '+st.site.where+'</p>';
+    T.appendChild(h('div','q',st.scn==='paid'?'All done':'Your locker is ready'));
+    T.appendChild(h('p','hint',st.site.name+' · '+st.site.where));
     var p=h('div','pass');var q=h('div','qr');q.innerHTML=qrSvg('SAFESPOT|'+st.site.id+'|'+st.door.label+'|'+st.code);p.appendChild(q);
-    p.appendChild(h('div','', '<div class="kv">Door code</div><div class="code">'+st.code.slice(0,3)+' '+st.code.slice(3)+'</div><div class="kv" style="margin-top:.4rem">Locker <b>'+st.door.label+'</b> · '+s5.name+'</div><div class="kv">'+(st.scn==='late'||st.scn==='paid'?'Booking ended <b>'+fmt(st.until)+'</b>':'From <b>'+fmt(st.start)+'</b> until <b>'+clock(st.until)+'</b>')+'</div><div class="kv">Paid <b>EGP '+price()+'</b> · '+st.pay+'</div>'));
+    p.appendChild(h('div','', '<div class="kv">Door code</div><div class="code">'+st.code.slice(0,3)+' '+st.code.slice(3)+'</div><div class="kv">Locker <b>'+st.door.label+'</b> · '+s5.name+'</div><div class="kv">'+(st.scn==='late'||st.scn==='paid'?'Ended <b>'+fmt(st.until)+'</b>':'<b>'+fmt(st.start)+'</b> to <b>'+clock(st.until)+'</b>')+' · Paid <b>EGP '+price()+'</b></div>'));
     T.appendChild(p);
-    if(st.scn==='late')T.appendChild(h('div','msg2 late','<b>You are 40 minutes late.</b>Your code still opens the door. '+(st.fee?'One extra hour, EGP '+st.fee+', is added. You pay it on your phone after you collect.':'You already paid the full-day price, so nothing is added.')));
+    if(st.scn==='late')T.appendChild(h('div','msg2 late','<b>You are 40 minutes late.</b>Your code still opens the door. '+(st.fee?'One extra hour, EGP '+st.fee+', is added. You pay it after you collect.':'You already paid the full-day price, so nothing is added.')));
     if(st.scn==='phone')T.appendChild(h('div','msg2','<b>Your phone is inside the locker.</b>Type the code on the door keypad. You do not need the phone, even if you are late.'));
-    if(st.scn==='forgot')T.appendChild(h('div','msg2','<b>Forgot your code?</b>Call the number on the locker bank from any phone. We check your mobile number'+(st.size==='L'||H()>6?' and ID':'')+', then set a new code and say it to you.'));
+    if(st.scn==='forgot')T.appendChild(h('div','msg2','<b>Forgot your code?</b>Call the number on the locker bank from any phone. We check your mobile number'+(st.size==='L'||H()>6?' and ID':'')+', then give you a new code.'));
     if(st.scn==='paid')T.appendChild(h('div','msg2 ok','<b>Collected. Extra hour paid: EGP '+st.fee+'.</b>The locker is free again and your code is cancelled.'));
-    var r=h('div','row');
-    var ob=h('button','btn',st.scn==='late'?(st.fee?'Open and pay EGP '+st.fee:'Open locker'):(st.opened?'Close door':'Open locker'));ob.type='button';
-    ob.onclick=function(){if(st.scn==='late'){st.extra++;st.scn='paid';st.opened=true;}else{st.opened=!st.opened;}render();drawBank();};
-    var nf=nextFee();var eb=h('button','btn ghost','+1 hour · '+(nf?'EGP '+nf:'free'));eb.type='button';eb.disabled=H()>=24||st.scn==='late'||st.scn==='paid';eb.onclick=function(){st.extra++;st.until=new Date(st.until.getTime()+3600000);render();};
-    if(st.scn!=='paid'){r.appendChild(ob);r.appendChild(eb);T.appendChild(r);}
+    if(st.scn!=='paid'){
+      var r=h('div','row');
+      r.appendChild(btn('btn',st.scn==='late'?(st.fee?'Open and pay EGP '+st.fee:'Open locker'):(st.opened?'Close door':'Open locker'),function(){if(st.scn==='late'){st.extra++;st.scn='paid';st.opened=true;}else{st.opened=!st.opened;}render();drawBank();}));
+      var nf=nextFee();var eb=btn('btn ghost','+1 hour · '+(nf?'EGP '+nf:'free'),function(){st.extra++;st.until=new Date(st.until.getTime()+3600000);render();});
+      eb.disabled=H()>=24||st.scn==='late';r.appendChild(eb);T.appendChild(r);
+    }
+    T.appendChild(mini(true));
     var tb=h('div','test','<p>Test a scenario</p>');var tc=h('div','chips');
-    [['late','I come back late'],['phone','My phone is inside'],['forgot','I forgot my code']].forEach(function(x){var c=h('button','chip'+(st.scn===x[0]?' sel':''),x[1]);c.type='button';
-      c.onclick=function(){st.scn=x[0];if(x[0]==='late'){st.until=new Date(Date.now()-40*60000);st.fee=nextFee();st.opened=false;}render();drawBank();};tc.appendChild(c);});
+    [['late','I come back late'],['phone','My phone is inside'],['forgot','I forgot my code']].forEach(function(x){
+      tc.appendChild(btn('chip'+(st.scn===x[0]?' sel':''),x[1],function(){st.scn=x[0];if(x[0]==='late'){st.until=new Date(Date.now()-40*60000);st.fee=nextFee();st.opened=false;}render();drawBank();}));});
     tb.appendChild(tc);T.appendChild(tb);
-    var fb=h('button','btn ghost','Finish and free the locker');fb.type='button';fb.style.cssText='width:100%;margin-top:.7rem;flex:none';fb.onclick=reset;T.appendChild(fb);
+    T.appendChild(btn('btn ghost big push','Finish and free the locker',reset));
   }
+  drawBank();
 }
 function keep(){var a=document.getElementById('tPhone'),b=document.getElementById('tOwn');if(a)st.phone=a.value;if(b)st.own=b.value.replace(/\D/g,'').slice(0,6);}
 function book(){
@@ -2709,7 +2809,7 @@ function book(){
   var f=free(st.size);st.door=f[0];
   st.code=st.own.length===6?st.own:String(Math.floor(100000+Math.random()*900000));
   st.start=fromD();st.until=toD();st.extra=0;st.fee=0;st.opened=false;st.scn=st.phoneIn?'phone':null;
-  go(4);
+  go(6);
 }
 function reset(){st={step:1,pos:st.pos,posName:st.posName,site:null,size:null,fromT:null,hrs:2,pay:st.pay,door:null,code:null,until:null,extra:0,phone:st.phone,own:'',phoneIn:false,scn:null,locMsg:''};render();drawBank();}
 function qrSvg(text){
@@ -2725,32 +2825,39 @@ function qrSvg(text){
   for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(get(r,c))s+='<rect x="'+c+'" y="'+r+'" width="1" height="1" fill="#0E3B43"/>';
   return s+'</svg>';
 }
-drawBank();render();
 
+/* venues form */
 document.getElementById('b2b').addEventListener('submit',function(e){e.preventDefault();
   var ok=['b2bName','b2bOrg','b2bPhone'].every(function(id){return document.getElementById(id).value.trim()});
-  document.getElementById('b2bMsg').textContent=ok?'Thank you. In the live site this request goes to our venues team. Nothing was sent from this prototype.':'Please fill in your name, organisation and phone number.';});
+  document.getElementById('b2bMsg').textContent=ok?'Thank you. In the live site this goes to our venues team. Nothing was sent from this prototype.':'Please fill in your name, organisation and phone number.';});
 
-var chat=document.getElementById('chat'),fab=document.getElementById('fab'),log=document.getElementById('log');
+/* help */
 var QA=[
- [/late|more time|longer|overstay|extend/i,'If you come back late, your code still opens the door. Extra hours cost the same hourly rate (EGP 15, 20 or 25), never more than the full-day price, and you pay after you collect. You can also add an hour from your booking before the time ends.'],
+ [/late|more time|longer|overstay|extend/i,'If you come back late, your code still opens the door. Extra hours cost the same hourly rate (EGP 15, 20 or 25), never more than the full-day price, and you pay after you collect.'],
  [/phone (is )?(inside|in the locker|died|dead)|battery|no phone|without (a )?phone/i,'You do not need your phone to collect. Type your 6-digit code on the door keypad. Tip: choose your own code when you book so it is easy to remember.'],
  [/forgot|forget|lost.*code/i,'Call the number printed on the locker bank from any phone. We check your mobile number and ID, then give you a new code.'],
- [/size|fit|store|bag|suitcase|laptop|helmet|which locker/i,'Tell me what you are carrying. Phone, keys or a handbag fit a Small (EGP 15 an hour). A backpack or shopping bags fit a Medium (EGP 20 an hour). A cabin suitcase or travel bag needs a Large (EGP 25 an hour).'],
+ [/door|open|stuck|broken/i,'Support opens the door from our side. If that fails, a technician comes within 4 hours and the rental is refunded.'],
+ [/size|fit|store|bag|suitcase|laptop|helmet|which locker/i,'Phone, keys or a handbag fit a Small (EGP 15 an hour). A backpack or shopping bags fit a Medium (EGP 20 an hour). A cabin suitcase or travel bag needs a Large (EGP 25 an hour).'],
  [/pay|instapay|cash|card|wallet|apple/i,'You can pay with InstaPay, Apple Pay, a bank card or a mobile wallet. The lockers are self-service, so there is no cash desk.'],
  [/safe|secure|theft|stolen|insur|camera|trust|drug/i,'Every bank has a camera that covers all doors and records day and night. Each booking has its own code and is linked to a mobile number, and stored items are covered up to EGP 10,000.'],
- [/price|cost|how much|egp/i,'You pay by the hour: Small EGP 15, Medium EGP 20, Large EGP 25. Four hours cost EGP 50, 70 or 90, and a full day EGP 90, 120 or 150. Beach day pass with charging: EGP 100. There is no service fee.'],
- [/where|location|near|mall|station|beach|concert/i,'Tap "Use my location" or pick your area in the booking card and I will show the nearest SafeSpot. We plan malls, event venues, stations and North Coast beach clubs.'],
+ [/price|cost|how much|egp/i,'You pay by the hour: Small EGP 15, Medium EGP 20, Large EGP 25. Four hours cost EGP 50, 70 or 90, and a full day EGP 90, 120 or 150. Beach day pass with charging: EGP 100. No service fee.'],
+ [/where|location|near|mall|station|beach|concert/i,'Open Book and tap "Use my location", or pick your area, and you will see the nearest SafeSpot. We plan malls, event venues, stations and North Coast beach clubs.'],
  [/ban|allowed|prohibit|food|weapon|animal/i,'Not allowed: weapons, drugs, flammable items, animals and fresh food. The full list is on every locker bank.']
 ];
-function say(t,me){var m=h('div','msg'+(me?' me':''));m.textContent=t;log.appendChild(m);log.scrollTop=log.scrollHeight;}
-function answer(q){say(q,true);var a=null;for(var i=0;i<QA.length;i++){if(QA[i][0].test(q)){a=QA[i][1];break;}}
-  setTimeout(function(){say(a||'I can help with sizes, prices, payment, safety and late pick-up. For anything else, message our team on WhatsApp.');},350);}
-['What size do I need?','I will be late','My phone is inside','I forgot my code','Is it safe?'].forEach(function(c){var b=h('button','',c);b.type='button';b.onclick=function(){answer(c)};document.getElementById('chips').appendChild(b);});
-function toggle(open){chat.hidden=!open;fab.setAttribute('aria-expanded',open);if(open&&!log.children.length)say('Hi, I am the SafeSpot assistant. What are you storing today?');}
-fab.onclick=function(){toggle(chat.hidden)};document.getElementById('chatX').onclick=function(){toggle(false)};
-document.getElementById('chatForm').addEventListener('submit',function(e){e.preventDefault();var i=document.getElementById('chatIn');if(i.value.trim()){answer(i.value.trim());i.value='';}});
-window.SS={st:function(){return st},go:go,setPos:setPos,book:book,toggle:toggle,answer:answer};
+var QS=['I will be late','My phone is inside','I forgot my code','The door will not open','What size do I need?','How much is it?','How do I pay?','Is it safe?'];
+function answer(q){
+  var a=null;for(var i=0;i<QA.length;i++){if(QA[i][0].test(q)){a=QA[i][1];break;}}
+  var box=document.getElementById('ans');box.className='ans';box.style.animation='none';void box.offsetWidth;box.style.animation='';
+  box.innerHTML='';var qq=document.createElement('b');qq.textContent=q;box.appendChild(qq);
+  var aa=document.createElement('span');aa.textContent=a||'I can help with sizes, prices, payment, safety and late pick-up. For anything else, message our team on WhatsApp.';box.appendChild(aa);
+  $$('#qchips .chip').forEach(function(c){c.classList.toggle('sel',c.textContent===q);});
+}
+QS.forEach(function(c){document.getElementById('qchips').appendChild(btn('chip',c,function(){answer(c)}));});
+document.getElementById('askForm').addEventListener('submit',function(e){e.preventDefault();var i=document.getElementById('askIn');if(i.value.trim()){answer(i.value.trim());i.value='';}});
+
+render();
+show((location.hash||'').slice(1)||'home',true);
+window.SS={st:function(){return st},go:go,setPos:setPos,book:book,show:show,answer:answer,render:render};
 })();
 </script>
 
