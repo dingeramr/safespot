@@ -137,7 +137,16 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .prow .rate{text-align:right;line-height:1.05} .prow .rate b{font-size:1.5rem;font-variant-numeric:tabular-nums} .prow .rate span{font-size:.72rem;color:var(--muted)}
 .prow .caps{grid-column:1/-1;display:flex;gap:.4rem;flex-wrap:wrap}
 .prow .caps span{font-size:.72rem;background:var(--sage);border-radius:99px;padding:.14rem .6rem;color:var(--ink)}
+.prow .caps span.x{background:var(--blush);color:var(--warn);font-weight:600}
 .prow.beach{background:var(--blush);border-color:transparent}
+.ptable{border:1.5px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.pt-h,.pt-r{display:grid;grid-template-columns:minmax(0,1.9fr) repeat(5,minmax(0,1fr));align-items:center;gap:.15rem;padding:.6rem .7rem;text-align:right;font-variant-numeric:tabular-nums}
+.pt-h{background:var(--sage);font-size:.62rem;line-height:1.15;text-transform:uppercase;letter-spacing:.03em;font-weight:600;color:var(--ink)}
+.pt-r{border-top:1px solid var(--rule);font-size:.95rem}
+.pt-r>span:first-child{text-align:left} .pt-r>span:first-child b{font-size:.95rem;color:var(--ink)}
+.pt-r>b{font-size:1.15rem;color:var(--ink)}
+.pt-r small{display:block;font-size:.66rem;color:var(--muted);line-height:1.2}
+.pt-h .x,.pt-r .x{color:var(--warn);font-weight:600}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .g3{display:grid;grid-template-columns:1fr;gap:.5rem}
 .card{border:1.5px solid var(--rule);border-radius:var(--r);padding:.6rem .7rem;background:#fff;min-width:0}
@@ -229,7 +238,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
         <p class="eyebrow">Self-service lockers in Egypt</p>
         <h1>Leave your things.<br><em>Enjoy your day.</em></h1>
         <p class="lead">At malls, concerts, stations and beach clubs. Find the nearest locker, book in three steps and open it with your code.</p>
-        <div class="facts"><span><b>From EGP 15</b> an hour</span><span><b>No app</b> to download</span><span><b>No staff</b> to wait for</span></div>
+        <div class="facts"><span><b>From EGP 30</b> an hour</span><span><b>No app</b> to download</span><span><b>No staff</b> to wait for</span></div>
         <div class="wall mini grow" aria-hidden="true">
           <div class="wall-head"><span data-bankfree>20 lockers</span><span class="cam"><i></i>Camera on every door</span></div>
           <div class="bank" data-bank></div>
@@ -250,14 +259,15 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
       </section>
 
       <section class="screen" data-s="prices" aria-label="Prices">
-        <div><p class="eyebrow">Prices</p><h2>Pay by the hour</h2><p class="lead">Four hours and a full day are capped, so you never pay more. No service fee.</p></div>
-        <div class="plist">
-          <div class="prow"><span><b>Small</b><small>Phone, wallet, keys, handbag</small></span><span class="rate"><b>EGP 15</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 50</span><span>Full day EGP 90</span></span></div>
-          <div class="prow"><span><b>Medium</b><small>Backpack, laptop bag, shopping bags</small></span><span class="rate"><b>EGP 20</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 70</span><span>Full day EGP 120</span></span></div>
-          <div class="prow"><span><b>Large</b><small>Cabin suitcase, travel bag</small></span><span class="rate"><b>EGP 25</b><br><span>an hour</span></span><span class="caps"><span>4 hours EGP 90</span><span>Full day EGP 150</span></span></div>
-          <div class="prow beach"><span><b>Beach day pass</b><small>Small locker with a charging socket</small></span><span class="rate"><b>EGP 100</b><br><span>all day</span></span></div>
+        <div><p class="eyebrow">Prices</p><h2>Pay by the hour</h2><p class="lead">Stay longer and the hour gets cheaper. VAT included, no service fee.</p></div>
+        <div class="ptable" role="table" aria-label="Prices in EGP">
+          <div class="pt-h" role="row"><span></span><span>1 hr</span><span>2 hrs</span><span>4 hrs</span><span>Day</span><span class="x">Extra hr</span></div>
+          <div class="pt-r" role="row"><span><b>Small</b><small>Phone, keys, handbag</small></span><b>30</b><span>50</span><span>80</span><span>130</span><span class="x">40</span></div>
+          <div class="pt-r" role="row"><span><b>Medium</b><small>Backpack, shopping</small></span><b>35</b><span>60</span><span>100</span><span>160</span><span class="x">45</span></div>
+          <div class="pt-r" role="row"><span><b>Large</b><small>Cabin suitcase</small></span><b>40</b><span>70</span><span>120</span><span>200</span><span class="x">50</span></div>
         </div>
-        <p class="note">Example: 3 hours in a Small locker is EGP 45. Late? Extra hours cost the same rate.</p>
+        <div class="prow beach"><span><b>Beach day pass</b><small>Small locker, 08:00 to sunset</small></span><span class="rate"><b>EGP 100</b><br><span>all day</span></span></div>
+        <p class="note">Prices in EGP, VAT included. An extra hour is any hour after your booked time; it costs EGP 10 more than a booked hour.</p>
         <button class="btn clay big push" type="button" data-go="book">Book a locker</button>
       </section>
 
@@ -324,7 +334,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
         <div class="bank" data-bank></div>
         <div class="wall-head"><span class="cam"><i></i>Camera covers every door, day and night</span><span>4 Large · 6 Medium · 10 Small</span></div>
       </div>
-      <div class="sidefacts"><div><b>EGP 15</b>an hour for a Small locker</div><div><b>3 steps</b>find, choose, pay</div><div><b>No staff</b>your code opens the door</div></div>
+      <div class="sidefacts"><div><b>EGP 30</b>an hour for a Small locker</div><div><b>3 steps</b>find, choose, pay</div><div><b>No staff</b>your code opens the door</div></div>
     </aside>
   </main>
 
@@ -2649,9 +2659,9 @@ var SITES=[
  {id:'beach',name:'Beach club, North Coast',type:'Beach',lat:30.9560,lng:28.8300,hours:'June to September, 08:00 to sunset',where:'Covered walkway by the beach entrance',busy:[10,11,12,13,14,15,16]}
 ];
 var AREAS=[['Nasr City',30.0561,31.3300],['Downtown',30.0478,31.2380],['New Cairo',30.0300,31.4700],['Dokki and Giza',30.0380,31.2100],['Maadi',29.9602,31.2569],['6th of October',29.9720,30.9600],['Alexandria',31.2100,29.9300],['North Coast',30.9500,28.8500]];
-var SIZES={S:{name:'Small',dim:'40 × 30 × 50 cm',fits:'Phone, wallet, keys, handbag',r:15,p4:50,pd:90},
-           M:{name:'Medium',dim:'55 × 40 × 60 cm',fits:'Backpack, laptop bag, shopping bags',r:20,p4:70,pd:120},
-           L:{name:'Large',dim:'85 × 55 × 60 cm',fits:'Cabin suitcase, travel bag',r:25,p4:90,pd:150}};
+var SIZES={S:{name:'Small',dim:'40 × 30 × 50 cm',fits:'Phone, wallet, keys, handbag',r:30,p2:50,p4:80,pd:130,x:40},
+           M:{name:'Medium',dim:'55 × 40 × 60 cm',fits:'Backpack, laptop bag, shopping bags',r:35,p2:60,p4:100,pd:160,x:45},
+           L:{name:'Large',dim:'85 × 55 × 60 cm',fits:'Cabin suitcase, travel bag',r:40,p2:70,p4:120,pd:200,x:50}};
 var PAY=['InstaPay','Apple Pay','Card','Mobile wallet'];
 var COLS=[['L',2],['L',2],['M',3],['M',3],['S',5],['S',5]];
 var STEPNAME={1:'Step 1 of 3 · Find',2:'Step 1 of 3 · Find',3:'Step 2 of 3 · Choose',4:'Step 2 of 3 · Choose',5:'Step 3 of 3 · Pay',6:'Booked'};
@@ -2677,11 +2687,12 @@ function drawBank(){
   $$('[data-bankfree]').forEach(function(e){e.textContent=(20-site.busy.length)+' of 20 lockers free';});
 }
 function free(size,site){site=site||curSite();return DOORS.filter(function(d){return d.size===size&&site.busy.indexOf(d.i)<0});}
-function cost(k,hr){var s=SIZES[k];hr=Math.max(1,Math.min(24,hr));return hr<=4?Math.min(hr*s.r,s.p4):Math.min(s.p4+(hr-4)*s.r,s.pd);}
-function tier(k,hr){var s=SIZES[k],c=cost(k,hr);return c>=s.pd?'Full-day price':(hr>=4&&hr*s.r>c?'4-hour price':'EGP '+s.r+' an hour');}
+function cost(k,hr){var s=SIZES[k];hr=Math.max(1,Math.min(24,hr));var o=[hr*s.r,s.pd];if(hr>=2)o.push(s.p2+(hr-2)*s.r);if(hr>=4)o.push(s.p4+(hr-4)*s.r);return Math.min.apply(null,o);}
+function tier(k,hr){var s=SIZES[k],c=cost(k,hr);if(c>=s.pd)return 'Full-day price';if(hr>=4&&c<hr*s.r)return '4-hour offer'+(hr>4?' +'+(hr-4)+'h':'');if(hr>=2&&c<hr*s.r)return '2-hour offer'+(hr>2?' +'+(hr-2)+'h':'');return 'EGP '+s.r+' an hour';}
 function H(){return st.hrs+st.extra;}
-function price(){return cost(st.size,H());}
-function nextFee(){return cost(st.size,H()+1)-cost(st.size,H());}
+function xfee(n){var s=SIZES[st.size];return cost(st.size,st.hrs)>=s.pd?0:Math.min(n*s.x,s.pd);}
+function price(){return cost(st.size,st.hrs)+xfee(st.extra);}
+function nextFee(){return xfee(st.extra+1)-xfee(st.extra);}
 function fromD(){var n=new Date();return (st.fromT&&st.fromT>n.getTime())?new Date(st.fromT):n;}
 function toD(){return new Date(fromD().getTime()+st.hrs*3600000);}
 function fmt(d){return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
@@ -2762,7 +2773,7 @@ function render(){
     lu.querySelector('select').onchange=function(e){st.hrs=+e.target.value;render();};
     var qc=h('div','chips');[[1,'1 hour'],[2,'2 hours'],[3,'3 hours'],[4,'4 hours'],[6,'6 hours'],[24,'Full day']].forEach(function(x){qc.appendChild(btn('chip'+(st.hrs===x[0]?' sel':''),x[1],function(){st.hrs=x[0];render();}));});T.appendChild(qc);
     T.appendChild(h('div','pricebox','<span><span class="big">EGP '+price()+'</span><small>'+fmt(fromD())+' to '+clock(toD())+' · '+hrsTxt(st.hrs)+'</small></span><span class="why">'+tier(st.size,st.hrs)+'</span>'));
-    T.appendChild(h('p','hint','Only times from now on are shown. If you come back later, extra hours are added at the same hourly rate.'));
+    T.appendChild(h('p','hint','Only times from now on are shown. VAT is included. An extra hour after your booked time costs EGP '+SIZES[st.size].x+'.'));
     var nx=btn('btn clay big push','Continue · EGP '+price(),function(){go(5)});T.appendChild(nx);
   }else if(st.step===5){
     T.appendChild(h('div','q','Pay and get your code'));
@@ -2784,14 +2795,14 @@ function render(){
     var p=h('div','pass');var q=h('div','qr');q.innerHTML=qrSvg('SAFESPOT|'+st.site.id+'|'+st.door.label+'|'+st.code);p.appendChild(q);
     p.appendChild(h('div','', '<div class="kv">Door code</div><div class="code">'+st.code.slice(0,3)+' '+st.code.slice(3)+'</div><div class="kv">Locker <b>'+st.door.label+'</b> · '+s5.name+'</div><div class="kv">'+(st.scn==='late'||st.scn==='paid'?'Ended <b>'+fmt(st.until)+'</b>':'<b>'+fmt(st.start)+'</b> to <b>'+clock(st.until)+'</b>')+' · Paid <b>EGP '+price()+'</b></div>'));
     T.appendChild(p);
-    if(st.scn==='late')T.appendChild(h('div','msg2 late','<b>You are 40 minutes late.</b>Your code still opens the door. '+(st.fee?'One extra hour, EGP '+st.fee+', is added. You pay it after you collect.':'You already paid the full-day price, so nothing is added.')));
+    if(st.scn==='late')T.appendChild(h('div','msg2 late','<b>You are 40 minutes late.</b>Your code still opens the door. '+(st.fee?'One extra hour is added at the extra-hour rate, EGP '+st.fee+'. You pay it after you collect.':'You already paid the full-day price, so nothing is added.')));
     if(st.scn==='phone')T.appendChild(h('div','msg2','<b>Your phone is inside the locker.</b>Type the code on the door keypad. You do not need the phone, even if you are late.'));
     if(st.scn==='forgot')T.appendChild(h('div','msg2','<b>Forgot your code?</b>Call the number on the locker bank from any phone. We check your mobile number'+(st.size==='L'||H()>6?' and ID':'')+', then give you a new code.'));
     if(st.scn==='paid')T.appendChild(h('div','msg2 ok','<b>Collected. Extra hour paid: EGP '+st.fee+'.</b>The locker is free again and your code is cancelled.'));
     if(st.scn!=='paid'){
       var r=h('div','row');
       r.appendChild(btn('btn',st.scn==='late'?(st.fee?'Open and pay EGP '+st.fee:'Open locker'):(st.opened?'Close door':'Open locker'),function(){if(st.scn==='late'){st.extra++;st.scn='paid';st.opened=true;}else{st.opened=!st.opened;}render();drawBank();}));
-      var nf=nextFee();var eb=btn('btn ghost','+1 hour · '+(nf?'EGP '+nf:'free'),function(){st.extra++;st.until=new Date(st.until.getTime()+3600000);render();});
+      var nf=nextFee();var eb=btn('btn ghost','+1 extra hour · '+(nf?'EGP '+nf:'free'),function(){st.extra++;st.until=new Date(st.until.getTime()+3600000);render();});
       eb.disabled=H()>=24||st.scn==='late';r.appendChild(eb);T.appendChild(r);
     }
     T.appendChild(mini(true));
@@ -2833,14 +2844,14 @@ document.getElementById('b2b').addEventListener('submit',function(e){e.preventDe
 
 /* help */
 var QA=[
- [/late|more time|longer|overstay|extend/i,'If you come back late, your code still opens the door. Extra hours cost the same hourly rate (EGP 15, 20 or 25), never more than the full-day price, and you pay after you collect.'],
+ [/late|more time|longer|overstay|extend/i,'If you come back late, your code still opens the door. Each extra hour costs EGP 40, 45 or 50 by size, a little more than a booked hour. Extra time never costs more than one full-day price, and you pay after you collect.'],
  [/phone (is )?(inside|in the locker|died|dead)|battery|no phone|without (a )?phone/i,'You do not need your phone to collect. Type your 6-digit code on the door keypad. Tip: choose your own code when you book so it is easy to remember.'],
- [/forgot|forget|lost.*code/i,'Call the number printed on the locker bank from any phone. We check your mobile number and ID, then give you a new code.'],
+ [/forgot|forget|lost.*code/i,'Call the number printed on the locker bank from any phone. We check your mobile number, and your ID for Large or full-day bookings, then give you a new code.'],
  [/door|open|stuck|broken/i,'Support opens the door from our side. If that fails, a technician comes within 4 hours and the rental is refunded.'],
- [/size|fit|store|bag|suitcase|laptop|helmet|which locker/i,'Phone, keys or a handbag fit a Small (EGP 15 an hour). A backpack or shopping bags fit a Medium (EGP 20 an hour). A cabin suitcase or travel bag needs a Large (EGP 25 an hour).'],
+ [/size|fit|store|bag|suitcase|laptop|helmet|which locker/i,'Phone, keys or a handbag fit a Small (EGP 30 an hour). A backpack or shopping bags fit a Medium (EGP 35 an hour). A cabin suitcase or travel bag needs a Large (EGP 40 an hour).'],
  [/pay|instapay|cash|card|wallet|apple/i,'You can pay with InstaPay, Apple Pay, a bank card or a mobile wallet. The lockers are self-service, so there is no cash desk.'],
- [/safe|secure|theft|stolen|insur|camera|trust|drug/i,'Every bank has a camera that covers all doors and records day and night. Each booking has its own code and is linked to a mobile number, and stored items are covered up to EGP 10,000.'],
- [/price|cost|how much|egp/i,'You pay by the hour: Small EGP 15, Medium EGP 20, Large EGP 25. Four hours cost EGP 50, 70 or 90, and a full day EGP 90, 120 or 150. Beach day pass with charging: EGP 100. No service fee.'],
+ [/safe|secure|theft|stolen|insur|camera|trust|drug/i,'Every bank has a camera that covers all doors and records day and night. Each booking has its own code and is linked to a mobile number, and cover for stored items up to EGP 10,000 is planned.'],
+ [/price|cost|how much|egp/i,'One hour is EGP 30, 35 or 40 by size. Offers: 2 hours EGP 50, 60 or 70; 4 hours EGP 80, 100 or 120; a full day EGP 130, 160 or 200. An extra hour after your booked time is EGP 40, 45 or 50. Beach day pass: EGP 100. VAT included, no service fee.'],
  [/where|location|near|mall|station|beach|concert/i,'Open Book and tap "Use my location", or pick your area, and you will see the nearest SafeSpot. We plan malls, event venues, stations and North Coast beach clubs.'],
  [/ban|allowed|prohibit|food|weapon|animal/i,'Not allowed: weapons, drugs, flammable items, animals and fresh food. The full list is on every locker bank.']
 ];
